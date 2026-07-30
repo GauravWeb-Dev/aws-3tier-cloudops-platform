@@ -1,0 +1,34 @@
+{
+  "_comment": "MANUAL ONE-TIME STEP. Create this policy by hand (console or CLI with your own admin credentials) BEFORE running any Phase 0-2 automation. Name it exactly 'PlatformBootstrapBoundary' so the Condition in platform-bootstrap-policy.json resolves correctly. This is the ceiling: any role the automated bootstrap policy creates is capped at whatever this boundary allows, no matter what policy gets attached to that role later.",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CeilingForBootstrapCreatedRoles",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "s3:*",
+        "dynamodb:*",
+        "ecs:*",
+        "elasticloadbalancing:*",
+        "rds:*",
+        "wafv2:*",
+        "logs:*",
+        "cloudwatch:*",
+        "tag:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ExplicitlyExcludeIamAndBilling",
+      "Effect": "Deny",
+      "Action": [
+        "iam:*",
+        "organizations:*",
+        "account:*",
+        "aws-portal:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
